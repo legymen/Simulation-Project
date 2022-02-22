@@ -1,13 +1,13 @@
 /**
-* The massObject class implements a simple object with mass that can
-* respond to a force applied to it.
-* This is done by every frame first sum all forces, then calculate
-* acceleration, velocity and position.
-*
-* @author  Andreas W
-* @version 1.0
-* @since   2022-02-14
-*/
+ * The massObject class implements a simple object with mass that can
+ * respond to a force applied to it.
+ * This is done by every frame first sum all forces, then calculate
+ * acceleration, velocity and position.
+ *
+ * @author  Andreas W
+ * @version 1.0
+ * @since   2022-02-14
+ */
 
 class MassObject {
 
@@ -55,15 +55,14 @@ class MassObject {
     totalForce.mult(0);
   }
 
-  void render(){
+  void render() {
     // Renders the object as a circle
     fill(col);
     ellipse(position.x, position.y, size, size);
   }
 
-  void applyForce(PVector force){
+  void applyForce(PVector force) {
     // Applies a force to the object
     totalForce.add(force);
   }
-
 }

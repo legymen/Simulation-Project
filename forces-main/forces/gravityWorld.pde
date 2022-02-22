@@ -22,7 +22,6 @@ class GravityWorld {
       100000, 
       100, 
       color(255, 255, 0)));
-
   }
 
   void run() {
@@ -49,7 +48,7 @@ class GravityWorld {
     }
 
     // Toggle tracing
-    if (keysPressed.hasValue("t") && !toggleTracing){
+    if (keysPressed.hasValue("t") && !toggleTracing) {
       tracing = !tracing;
       toggleTracing = true;
     } else {
