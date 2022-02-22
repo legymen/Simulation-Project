@@ -44,7 +44,17 @@ void draw(){
 }
 
 void mouseReleased(){
-    mReleased = true;
+    if (state == "GRAVITY_WORLD"){
+        mReleased = true;
+    }
+}
+void mousePressed() {
+    if (state == "ELECTRO_WORLD"){
+        mReleased = true;
+    }
+    else {
+        mReleased = false;
+    }
 }
 
 void mouseDragged(){
