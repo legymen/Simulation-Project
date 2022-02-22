@@ -32,8 +32,7 @@ class ElectroWorld {
         new PVector(0, 0), 
         50, 
         charge, 
-        10, 
-        color(random(128, 255), random(128, 255), random(128, 255)), 
+        10,
         true));
 
       mReleased = false;
