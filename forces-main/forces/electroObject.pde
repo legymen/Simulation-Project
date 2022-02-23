@@ -4,7 +4,7 @@
  * This is done by every frame first sum all forces, then calculate
  * acceleration, velocity and position.
  *
- * @author  Andreas W
+ * @author  Reymond T (original author: Andreas W)
  * @version 1.0
  * @since   2022-02-14
  */
@@ -68,7 +68,7 @@ class ElectroObject {
   }
 
   void render() {
-    // Renders the object as a circle
+    // Renders the object as a circle and force arrow
     float forceLen;
     float maxLen;
     stroke(255);

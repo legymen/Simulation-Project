@@ -1,6 +1,6 @@
 class ElectroWorld {
 
-  float k_e; // electrostatic constant (Not the real one :-) )
+  float k_e; // electrostatic constant (Not the real one :p )
 
   ArrayList<ElectroObject> things; // Arraylist for all the things
 
