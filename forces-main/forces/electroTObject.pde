@@ -10,7 +10,7 @@
  * @since   2022-02-23
  */
 
-class ElectroObject {
+class ElectroTObject {
 
   PVector position;
   PVector velocity;
@@ -18,21 +18,18 @@ class ElectroObject {
 
   PVector totalForce;
 
-  boolean stationary;
-
   float charge;
   float mass;
   float size;
   color col;
 
-  ElectroObject(
+  ElectroTObject(
     PVector _pos, 
     PVector _vel, 
     PVector _acc, 
     float _mass, 
     float _charge, 
-    float _size, 
-    boolean _stationary) {
+    float _size,) {
 
     position = _pos;
     velocity = _vel;
@@ -40,7 +37,6 @@ class ElectroObject {
     charge = _charge;
     mass = _mass;
     size = _size;
-    stationary =  _stationary;
 
     col = color(255);
   }

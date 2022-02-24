@@ -3,6 +3,7 @@ class ElectroWorld {
   float k_e; // electrostatic constant (Not the real one :p )
 
   ArrayList<ElectroObject> things; // Arraylist for all the things
+  ArrayList<ElectroTObject> testThings; // Arraylist for all the test things
 
   boolean fieldOn, toggleFieldOn;
 
@@ -10,6 +11,7 @@ class ElectroWorld {
     k_e = _k_e;
 
     things = new ArrayList<ElectroObject>();
+    testThings = new ArrayList<ElectroTObject>();
 
     fieldOn = false;
     toggleFieldOn = false;
