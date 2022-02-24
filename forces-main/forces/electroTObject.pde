@@ -6,7 +6,7 @@
  * acceleration, velocity and position.
  *
  * @author  Reymond T
- * @version 1.0
+ * @version 1.1
  * @since   2022-02-23
  */
 
@@ -20,25 +20,21 @@ class ElectroTObject {
 
   float charge;
   float mass;
-  float size;
-  color col;
 
   ElectroTObject(
     PVector _pos, 
     PVector _vel, 
     PVector _acc, 
     float _mass, 
-    float _charge, 
-    float _size,) {
+    float _charge) {
 
     position = _pos;
     velocity = _vel;
     acceleration = _acc;
     charge = _charge;
     mass = _mass;
-    size = _size;
-
-    col = color(255);
+    
+    totalForce = new PVector(0, 0);
   }
 
   void run() {
@@ -47,12 +43,6 @@ class ElectroTObject {
   }
 
   void update() {
-    // Updates acceleration, velocity and position if not stationary
-    if (!stationary) {
-      acceleration = totalForce.div(mass); // Newtons second law
-      velocity.add(acceleration);
-      position.add(velocity);
-    }
     // Resets acceleration and force to not extend the force arrow
     acceleration.mult(0);
     totalForce.mult(0);
@@ -63,10 +53,8 @@ class ElectroTObject {
     float forceLen;
     float maxLen;
     stroke(255);
-    fill(col);
-    ellipse(position.x, position.y, size, size);
     forceLen = 1000 * totalForce.mag();
-    maxLen = constrain(forceLen, 0, 300);
+    maxLen = constrain(forceLen, 0, 10);
     drawArrow(position.x, position.y, maxLen, totalForce.heading());
   }
 
