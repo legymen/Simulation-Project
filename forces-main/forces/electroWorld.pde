@@ -5,7 +5,7 @@ class ElectroWorld {
   ArrayList<ElectroObject> things; // Arraylist for all the things
   ArrayList<ElectroTObject> testThings; // Arraylist for all the test things
 
-  boolean fieldOn, toggleFieldOn;
+  boolean fieldOn, toggleFieldOn, enableTObjects;
 
   ElectroWorld(float _k_e) {
     k_e = _k_e;
@@ -69,6 +69,12 @@ class ElectroWorld {
           currentThing.applyForce(calculateElectrostaticForce(currentThing, thing));
         }
       }
+    }
+
+    // Add test objects if an electro object is present
+    if (things.length > 0) {
+      for (
+      
     }
 
     // Run all things
