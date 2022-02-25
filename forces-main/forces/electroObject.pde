@@ -5,7 +5,7 @@
  * acceleration, velocity and position.
  *
  * @author  Reymond T (original author: Andreas W)
- * @version 1.0
+ * @version 1.1
  * @since   2022-02-14
  */
 
@@ -71,11 +71,11 @@ class ElectroObject {
     // Renders the object as a circle and force arrow
     float forceLen;
     float maxLen;
-    stroke(255);
+    noStroke();
     fill(col);
     ellipse(position.x, position.y, size, size);
     forceLen = 1000 * totalForce.mag();
-    maxLen = constrain(forceLen, 0, 300);
+    maxLen = constrain(forceLen, 0, 125);
     drawArrow(position.x, position.y, maxLen, totalForce.heading());
   }
 
@@ -85,6 +85,8 @@ class ElectroObject {
   }
 
   void drawArrow(float cx, float cy, float len, float angle) {
+    stroke(0, 255, 0);
+    strokeWeight(5);
     pushMatrix();
     translate(cx, cy);
     rotate(angle);

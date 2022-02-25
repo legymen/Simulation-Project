@@ -34,7 +34,7 @@ class ElectroWorld {
         new PVector(0, 0), 
         50, 
         charge, 
-        10, 
+        50, 
         true));
 
       mReleased = false;
@@ -62,8 +62,6 @@ class ElectroWorld {
 
   void update() {
 
-    println(testThings.size());
-
     // Apply electroforce to all things
     for (ElectroObject currentThing : things) {
       for (ElectroObject thing : things) {
@@ -81,10 +79,10 @@ class ElectroWorld {
     // Add test objects if an electro object is present
     if (things.size() > 0) {
       if (enableTObjects == false) {
-        for (int i = 0; i < 59; i++) {
-          for (int c = 0; c < 49; c++) {
+        for (int i = 0; i < 30; i++) {
+          for (int c = 0; c < 25; c++) {
             testThings.add(new ElectroTObject(
-              new PVector(20 + i*20, 20 + c*20), 
+              new PVector(20 + i*40, 20 + c*40), 
               new PVector(0, 0), 
               new PVector(0, 0), 
               50, 

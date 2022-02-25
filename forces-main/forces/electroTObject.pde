@@ -6,7 +6,7 @@
  * acceleration, velocity and position.
  *
  * @author  Reymond T
- * @version 1.1
+ * @version 1.2
  * @since   2022-02-23
  */
 
@@ -53,9 +53,8 @@ class ElectroTObject {
     float forceLen;
     float maxLen;
     stroke(255);
-    forceLen = 1000 * totalForce.mag();
-    maxLen = constrain(forceLen, 0, 10);
-    drawArrow(position.x, position.y, maxLen, totalForce.heading());
+    float strength = map(totalForce.mag(), 0, 0.1, 0, 100);
+    drawArrow(position.x, position.y, 50, totalForce.heading(), strength);
   }
 
   void applyForce(PVector force) {
@@ -63,7 +62,9 @@ class ElectroTObject {
     totalForce.add(force);
   }
 
-  void drawArrow(float cx, float cy, float len, float angle) {
+  void drawArrow(float cx, float cy, float len, float angle, float strength) {
+    stroke(strength);
+    strokeWeight(1);
     pushMatrix();
     translate(cx, cy);
     rotate(angle);
