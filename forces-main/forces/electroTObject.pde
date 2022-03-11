@@ -6,7 +6,7 @@
  * acceleration, velocity and position.
  *
  * @author  Reymond T
- * @version 1.2
+ * @version 1.3
  * @since   2022-02-23
  */
 
