@@ -3,15 +3,19 @@ class ElectroWorld {
   float k_e; // electrostatic constant (Not the real one :p )
 
   ArrayList<ElectroObject> things; // Arraylist for all the things
-  ArrayList<ElectroTObject> testThings; // Arraylist for all the test things
+  //ArrayList<ElectroTObject> testThings; // Arraylist for all the test things
 
   boolean fieldOn, toggleFieldOn, enableTObjects;
+
+  PVector field;
 
   ElectroWorld(float _k_e) {
     k_e = _k_e;
 
     things = new ArrayList<ElectroObject>();
-    testThings = new ArrayList<ElectroTObject>();
+    //testThings = new ArrayList<ElectroTObject>();
+
+    field = new PVector(0,0);
 
     fieldOn = false;
     toggleFieldOn = false;
@@ -70,34 +74,22 @@ class ElectroWorld {
         }
       }
     }
-    for (ElectroObject currentThing : things) {
-      for (ElectroTObject tThing : testThings) {
-        tThing.applyForce(calculateTElectrostaticForce(currentThing, tThing));
-      }
-    }
 
     // Add test objects if an electro object is present
     if (things.size() > 0) {
-      if (enableTObjects == false) {
         for (int i = 0; i < 30; i++) {
           for (int c = 0; c < 25; c++) {
-            testThings.add(new ElectroTObject(
-              new PVector(20 + i*40, 20 + c*40), 
-              new PVector(0, 0), 
-              new PVector(0, 0), 
-              50, 
-              100));
+            PVector field = eField(
+            new PVector(20 + i*40, 20 + c*40),
+            things);
+            float strength = map(field.mag(), 0, 0.005, 0, 255);
+            drawArrow(20 + i*40, 20 + c*40, 30, field.heading(), strength);
           }
         }
-        enableTObjects = true;
-      }
     }
 
     // Run all things
     for (ElectroObject currentThing : things) {
-      currentThing.run();
-    }
-    for (ElectroTObject currentThing : testThings) {
       currentThing.run();
     }
   }
@@ -121,12 +113,31 @@ class ElectroWorld {
     float forceMagnitude = (-1)*k_e*currentThing.charge*thing.charge/sq(distanceMagnitude);
     return distanceVector.setMag(forceMagnitude);
   }
-  
-  PVector calculateTElectrostaticForce(ElectroObject currentThing, ElectroTObject thing) {
 
-    PVector distanceVector = PVector.sub(thing.position, currentThing.position);
-    float distanceMagnitude = distanceVector.mag();
-    float forceMagnitude = k_e*currentThing.charge*thing.charge/sq(distanceMagnitude);
-    return distanceVector.setMag(forceMagnitude);
+  PVector eField(PVector location, ArrayList<ElectroObject> things) {
+
+    PVector eField = new PVector(0,0);
+    
+    for (ElectroObject currentThing : things) {
+      PVector cont = PVector.sub(currentThing.position, location);
+      float distanceMagnitude = cont.mag();
+      float contMag = k_e*currentThing.charge/sq(distanceMagnitude);
+      cont.setMag(contMag);
+
+      eField.add(cont);
+    }
+    return eField;
+  }
+  
+  void drawArrow(float cx, float cy, float len, float angle, float strength) {
+    stroke(strength);
+    strokeWeight(1);
+    pushMatrix();
+    translate(cx, cy);
+    rotate(angle);
+    line(0, 0, len, 0);
+    line(len, 0, len - 8, -8);
+    line(len, 0, len - 8, 8);
+    popMatrix();
   }
 }
