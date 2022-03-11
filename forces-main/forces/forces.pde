@@ -1,7 +1,7 @@
 boolean mReleased;
 PVector mVelocity;
 
-StringList keysPressed; 
+StringList keysPressed;
 
 GravityWorld myGravityWorld;
 ElectroWorld myElectroWorld;
