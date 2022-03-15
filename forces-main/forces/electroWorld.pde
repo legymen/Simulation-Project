@@ -6,6 +6,7 @@ class ElectroWorld {
   //ArrayList<ElectroTObject> testThings; // Arraylist for all the test things
 
   boolean fieldOn, toggleFieldOn, enableTObjects;
+  float stepLen;
 
   PVector field;
 
@@ -15,7 +16,7 @@ class ElectroWorld {
     things = new ArrayList<ElectroObject>();
     //testThings = new ArrayList<ElectroTObject>();
 
-    field = new PVector(0,0);
+    field = new PVector(0, 0);
 
     fieldOn = false;
     toggleFieldOn = false;
@@ -77,15 +78,15 @@ class ElectroWorld {
 
     // Add test objects if an electro object is present
     if (things.size() > 0) {
-        for (int i = 0; i < 30; i++) {
-          for (int c = 0; c < 25; c++) {
-            PVector field = eField(
-            new PVector(20 + i*40, 20 + c*40),
+      for (int i = 0; i < 30; i++) {
+        for (int c = 0; c < 25; c++) {
+          PVector field = eField(
+            new PVector(20 + i*40, 20 + c*40), 
             things);
-            float strength = map(field.mag(), 0, 0.005, 0, 255);
-            drawArrow(20 + i*40, 20 + c*40, 30, field.heading(), strength);
-          }
+          float strength = map(field.mag(), 0, 0.005, 0, 255);
+          drawArrow(20 + i*40, 20 + c*40, 30, field.heading(), strength);
         }
+      }
     }
 
     // Run all things
@@ -116,8 +117,8 @@ class ElectroWorld {
 
   PVector eField(PVector location, ArrayList<ElectroObject> things) {
 
-    PVector eField = new PVector(0,0);
-    
+    PVector eField = new PVector(0, 0);
+
     for (ElectroObject currentThing : things) {
       PVector cont = PVector.sub(currentThing.position, location);
       float distanceMagnitude = cont.mag();
@@ -128,7 +129,7 @@ class ElectroWorld {
     }
     return eField;
   }
-  
+
   void drawArrow(float cx, float cy, float len, float angle, float strength) {
     stroke(strength);
     strokeWeight(1);
@@ -139,5 +140,19 @@ class ElectroWorld {
     line(len, 0, len - 8, -8);
     line(len, 0, len - 8, 8);
     popMatrix();
+  }
+
+  void fieldLine(PVector pos, float dir) {
+    PVector step = new PVector(0, 0);
+    PVector newPos = new PVector(0, 0);
+    boolean stop = false;
+    for (ElectroObject currentThing : things) {
+      while (!stop) {
+        step = eField(currentThing.position, things);
+        step.setMag(stepLen);
+        newPos = PVector.add(pos, step);
+        line(pos.x, pos.y, newPos.x, newPos.y);
+      }
+    }
   }
 }
