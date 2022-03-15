@@ -6,7 +6,7 @@ class ElectroWorld {
   //ArrayList<ElectroTObject> testThings; // Arraylist for all the test things
 
   boolean fieldOn, toggleFieldOn, enableTObjects;
-  float stepLen;
+  float stepLen = 5;
 
   PVector field;
 
@@ -76,22 +76,29 @@ class ElectroWorld {
       }
     }
 
-    // Add test objects if an electro object is present
-    if (things.size() > 0) {
-      for (int i = 0; i < 30; i++) {
-        for (int c = 0; c < 25; c++) {
-          PVector field = eField(
-            new PVector(20 + i*40, 20 + c*40), 
-            things);
-          float strength = map(field.mag(), 0, 0.005, 0, 255);
-          drawArrow(20 + i*40, 20 + c*40, 30, field.heading(), strength);
-        }
-      }
-    }
+    // Add field arrows if an electro object is present
+    // if (things.size() > 0) {
+    //   for (int i = 0; i < 30; i++) {
+    //     for (int c = 0; c < 25; c++) {
+    //       PVector field = eField(
+    //         new PVector(20 + i*40, 20 + c*40), 
+    //         things);
+    //       float strength = map(field.mag(), 0, 0.005, 0, 255);
+    //       drawArrow(20 + i*40, 20 + c*40, 30, field.heading(), strength);
+    //     }
+    //   }
+    // }
+
+
 
     // Run all things
     for (ElectroObject currentThing : things) {
       currentThing.run();
+    }
+
+        // Draw feld lines if an electro object is present
+    if (things.size() > 0){
+      drawField();
     }
   }
 
@@ -142,17 +149,68 @@ class ElectroWorld {
     popMatrix();
   }
 
-  void fieldLine(PVector pos, float dir) {
-    PVector step = new PVector(0, 0);
-    PVector newPos = new PVector(0, 0);
+  void drawField(){
+
+    for (ElectroObject thing : things) {
+
+      if (thing.charge > 0){
+        for(int i = 0 ; i < 30 ; i++){
+          float dir = i * (2*3.14) / 30;
+          PVector firstStep = PVector.fromAngle(dir);
+          firstStep.setMag(20);
+          PVector startPos = PVector.add(thing.position, firstStep);
+          fieldLine(startPos, dir);
+        }         
+      }
+
+    }
+
+  }
+
+  void fieldLine(PVector startPos, float startDir) {
+
+    // Draw first step in direction startDir (radians)
+    PVector step = PVector.fromAngle(startDir);
+    step.setMag(stepLen);
+    PVector newPos = PVector.add(startPos, step);
+    line(startPos.x, startPos.y, newPos.x, newPos.y);
+
+    PVector pos = newPos;
     boolean stop = false;
-    for (ElectroObject currentThing : things) {
-      while (!stop) {
-        step = eField(currentThing.position, things);
-        step.setMag(stepLen);
-        newPos = PVector.add(pos, step);
-        line(pos.x, pos.y, newPos.x, newPos.y);
+    int counter = 0;
+
+    while (!stop) {
+      step = eField(pos, things);
+      step.setMag(stepLen);
+      step.rotate(PI);
+      newPos = PVector.add(pos, step);
+
+      line(pos.x, pos.y, newPos.x, newPos.y);
+
+      pos = newPos;
+
+      // Stop drawing line if far away or reaching other charge
+      // if (pos.dist(new PVector(width/2, height/2)) > 3000){
+      //   stop = true;
+      // } else if (checkInThing(pos, things, 10)){
+      //   stop = true;
+      // }
+      counter++;
+      if (counter>300){
+        stop = true;
       }
     }
   }
+
+  boolean checkInThing(PVector pos, ArrayList<ElectroObject> things, float collisionDistance){
+
+    for (ElectroObject thing : things) {
+      if (pos.dist(thing.position) < collisionDistance) {
+        return true;
+      }
+    }
+  
+    return false;
+  }
+
 }
